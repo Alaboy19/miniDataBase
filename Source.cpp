@@ -6,11 +6,9 @@
 #include <set>
 
 using namespace std;
-// Реализуйте функции и методы классов и при необходимости добавьте свои
 
 class Date {
 public:
-	
 	int GetYear() const {
 		return year;
 	}
@@ -31,44 +29,6 @@ public:
 	void SetDay(int new_day) {
 		day = new_day;
 	}
-	void  PrintYear () const 
-	{
-		string defis = "-";
-		if (year < 10)
-		{
-			cout << "000" << year << defis;
-		}
-		else if (year < 100)
-		{
-			cout << "00" << year << defis;
-		}
-		else if (year < 1000)
-		{
-			cout << "0" << year << defis;
-		}
-		else
-			cout << year << defis; 
-	}
-	void PrintMonth() const
-	{
-		string defis = "-";
-		if (month < 10)
-		{
-			cout << "0" << month << defis;
-		}
-		else
-			cout << month << defis;
-	}
-	void PrintDay () const 
-	{
-		string defis = "-";
-		if (day < 10)
-		{
-			cout << "0" << day;
-		}
-		else
-			cout << day;
-	}
 private: 
 	int year;
 	int month;
@@ -87,11 +47,16 @@ bool operator<(const Date& lhs, const Date& rhs)
 	}
 	else return lhs.GetYear() < rhs.GetYear(); 
 }
-
+ostream & operator << (ostream & stream, const Date & date)
+{
+	stream << setw(4)<<setfill('0')<<date.GetYear() << "-" << setw(2) << setfill('0') << date.GetMonth() <<
+		"-" << setw(2) << setfill('0') << date.GetDay();
+	return stream; 
+}
 class Database {
 public:
 	void AddEvent(const Date& date, const string& event) {
-		database[date].insert(event); // теперь всё хорошо	
+		database[date].insert(event); // С‚РµРїРµСЂСЊ РІСЃС‘ С…РѕСЂРѕС€Рѕ	
 	}
 	bool DeleteEvent(const Date& date, const string& event) {
 		if (database.count(date) == 0)
@@ -132,7 +97,7 @@ else if (database.at(date).count(event)>0)
 		{
 			for (const auto &item2: item.second)
 			{
-				item.first.PrintYear(); item.first.PrintMonth(); item.first.PrintDay(); cout << " " << item2<<endl;
+				 cout <<item.first<< " " << item2<<endl;
 			}		
 		}
 	}
@@ -169,8 +134,7 @@ void ParseDate(Date & date, string &yearmonthday)
 	if (day > 31 || day < 1) {
 		throw runtime_error(error1.c_str());
 	}
-	date.SetDay(day);
-	
+	date.SetDay(day);	
 }
 
 int main() {
@@ -185,7 +149,6 @@ int main() {
 			SS >> localcommand; 
 			if (localcommand == "Add")
 			{
-
 				SS >> yearmonthday;
 				try {
 					ParseDate(date, yearmonthday);
@@ -196,7 +159,6 @@ int main() {
 				catch (exception & e) {
 					cout << e.what() << endl;
 				}
-
 			}
 			else if (localcommand == "Find")
 			{
@@ -238,11 +200,10 @@ int main() {
 				catch (exception &e) {
 					cout << e.what() << endl;
 				}
-
 			}
 			else if (!localcommand.empty())
 				cout << "Unknown command: " << localcommand << endl;
-		// Считайте команды с потока ввода и обработайте каждую
+		// РЎС‡РёС‚Р°Р№С‚Рµ РєРѕРјР°РЅРґС‹ СЃ РїРѕС‚РѕРєР° РІРІРѕРґР° Рё РѕР±СЂР°Р±РѕС‚Р°Р№С‚Рµ РєР°Р¶РґСѓСЋ
 	}
 	return 0;
 }
